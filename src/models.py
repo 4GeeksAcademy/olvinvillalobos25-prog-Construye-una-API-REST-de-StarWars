@@ -79,6 +79,15 @@ class Character(db.Model):
         back_populates="character"
     )
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "gender": self.gender,
+            "height": self.height,
+            "eye_color": self.eye_color
+        }
+
 
 class Planet(db.Model):
     __tablename__ = "planet"
@@ -108,6 +117,15 @@ class Planet(db.Model):
     favorites: Mapped[List["Favorite"]] = relationship(
         back_populates="planet"
     )
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "climate": self.climate,
+            "terrain": self.terrain,
+            "population": self.population
+        }
 
 
 class Favorite(db.Model):
@@ -141,3 +159,11 @@ class Favorite(db.Model):
     planet: Mapped[Optional["Planet"]] = relationship(
         back_populates="favorites"
     )
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "character_id": self.character_id,
+            "planet_id": self.planet_id
+        }
